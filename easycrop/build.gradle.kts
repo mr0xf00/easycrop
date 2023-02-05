@@ -5,8 +5,8 @@ plugins {
     id("signing")
 }
 
-val compose_compiler_version : String by rootProject.extra
-val compose_ui_version : String by rootProject.extra
+val composeBomVersion : String by project
+val composeCompilerVersion : String by project
 
 android {
     namespace = "com.mr0xf00.easycrop"
@@ -19,7 +19,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = compose_compiler_version
+        kotlinCompilerExtensionVersion = composeCompilerVersion
     }
     buildFeatures {
         compose = true
@@ -40,15 +40,15 @@ android {
 }
 
 dependencies {
+    implementation(platform("androidx.compose:compose-bom:$composeBomVersion"))
     implementation ("androidx.core:core-ktx:1.9.0")
     testImplementation ("junit:junit:4.13.2")
-    androidTestImplementation ("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation ("androidx.test.ext:junit:1.1.5")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation ("androidx.activity:activity-compose:1.6.0")
-    implementation ("androidx.compose.material:material:$compose_ui_version")
-    implementation ("androidx.compose.ui:ui:$compose_ui_version")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    implementation ("androidx.activity:activity-compose:1.6.1")
+    implementation ("androidx.compose.material:material")
+    implementation ("androidx.compose.ui:ui")
+    androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 }
 
 fun extProperty(key: String): String {
@@ -59,7 +59,7 @@ publishing {
     val data = object {
         val groupId = "io.github.mr0xf00"
         val artifactId = "easycrop"
-        val version = "0.1.0"
+        val version = "0.1.1"
         private val releasesRepoUrl =
             uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
         private val snapshotsRepoUrl =

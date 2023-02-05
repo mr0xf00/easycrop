@@ -16,10 +16,10 @@ Add a dependency on the library to your Android project (Desktop not supported f
 
 ```kotlin
 dependencies {
-    implementation("io.github.mr0xf00:easycrop:0.1.0")
+    implementation("io.github.mr0xf00:easycrop:0.1.1")
 }
 ```
-#### 2. Create an `ImageCropper` an instance
+#### 2. Create an `ImageCropper` instance
 #### ***Option 1 : inside the composition***
 ```kotlin
 val imageCropper = rememberImageCropper()

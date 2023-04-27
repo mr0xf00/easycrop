@@ -18,25 +18,35 @@ fun DemoContent(
     selectedImage: ImageBitmap?,
     onPick: () -> Unit,
     modifier: Modifier = Modifier,
+    noDialog: Boolean = false,
 ) {
     if (cropState != null) {
         EasyCropTheme(darkTheme = true) {
-            ImageCropperDialog(state = cropState)
+            if (noDialog) {
+                CropperPreview(
+                    state = cropState,
+                    extraPadding = WindowInsets.mandatorySystemGestures.asPaddingValues(),
+                )
+            } else {
+                ImageCropperDialog(state = cropState)
+            }
         }
     }
     if (cropState == null && loadingStatus != null) {
         LoadingDialog(status = loadingStatus)
     }
-    Column(
-        modifier = modifier.padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        if (selectedImage != null) Image(
-            bitmap = selectedImage, contentDescription = null,
-            modifier = Modifier.weight(1f)
-        ) else Box(contentAlignment = Alignment.Center, modifier = Modifier.weight(1f)) {
-            Text("No image selected !")
+    if (cropState == null) {
+        Column(
+            modifier = modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (selectedImage != null) Image(
+                bitmap = selectedImage, contentDescription = null,
+                modifier = Modifier.weight(1f)
+            ) else Box(contentAlignment = Alignment.Center, modifier = Modifier.weight(1f)) {
+                Text("No image selected !")
+            }
+            Button(onClick = onPick) { Text("Choose Image") }
         }
-        Button(onClick = onPick) { Text("Choose Image") }
     }
 }

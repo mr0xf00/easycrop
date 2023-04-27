@@ -22,7 +22,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun CropperPreview(
     state: CropState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    bringToViewDelay: Long = 500,
 ) {
     val style = LocalCropperStyle.current
     val imgTransform by animateImgTransform(target = state.transform)
@@ -42,6 +43,7 @@ fun CropperPreview(
         hasOverride = pendingDrag != null,
         outer = view.toSize().toRect().deflate(viewPadding),
         mat = viewMat, local = state.region,
+        delay = bringToViewDelay,
     )
     Canvas(
         modifier = modifier
@@ -79,7 +81,8 @@ private fun BringToView(
     hasOverride: Boolean,
     outer: Rect,
     mat: ViewMat,
-    local: Rect
+    local: Rect,
+    delay: Long = 500,
 ) {
     if (outer.isEmpty) return
     DisposableEffect(Unit) {
@@ -92,7 +95,7 @@ private fun BringToView(
         if (hasOverride) overrideBlock = true
         else {
             if (overrideBlock) {
-                delay(500)
+                delay(delay)
                 overrideBlock = false
             }
             mat.fit(mat.matrix.map(local), outer)

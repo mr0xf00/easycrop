@@ -39,7 +39,8 @@ fun ImageCropperDialog(
     dialogPadding: PaddingValues = PaddingValues(16.dp),
     dialogShape: Shape = RoundedCornerShape(8.dp),
     topBar: @Composable (CropState) -> Unit = { DefaultTopBar(it) },
-    cropControls: @Composable BoxScope.(CropState) -> Unit = { DefaultControls(it) }
+    cropControls: @Composable BoxScope.(CropState) -> Unit = { DefaultControls(it) },
+    bringToViewDelay: Long = 500,
 ) {
     CompositionLocalProvider(LocalCropperStyle provides style) {
         Dialog(
@@ -57,7 +58,11 @@ fun ImageCropperDialog(
                             .weight(1f)
                             .clipToBounds()
                     ) {
-                        CropperPreview(state = state, modifier = Modifier.fillMaxSize())
+                        CropperPreview(
+                            state = state,
+                            modifier = Modifier.fillMaxSize(),
+                            bringToViewDelay = bringToViewDelay,
+                        )
                         cropControls(state)
                     }
                 }

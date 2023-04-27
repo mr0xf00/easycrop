@@ -2,6 +2,7 @@ package com.mr0xf00.easycrop.ui
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
@@ -11,7 +12,9 @@ import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.mr0xf00.easycrop.*
 import com.mr0xf00.easycrop.images.rememberLoadedImage
@@ -22,7 +25,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun CropperPreview(
     state: CropState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    extraPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     val style = LocalCropperStyle.current
     val imgTransform by animateImgTransform(target = state.transform)
@@ -30,7 +34,17 @@ fun CropperPreview(
     val viewMat = remember { ViewMat() }
     var view by remember { mutableStateOf(IntSize.Zero) }
     var pendingDrag by remember { mutableStateOf<DragHandle?>(null) }
-    val viewPadding = LocalDensity.current.run { style.touchRad.toPx() }
+    val layoutDirection = LocalLayoutDirection.current
+    val viewPadding = LocalDensity.current.run {
+        val touchRadPx = style.touchRad.toPx()
+        val maxExtraPadding = maxOf(
+            extraPadding.calculateTopPadding().toPx(),
+            extraPadding.calculateBottomPadding().toPx(),
+            extraPadding.calculateLeftPadding(layoutDirection).toPx(),
+            extraPadding.calculateRightPadding(layoutDirection).toPx(),
+        )
+        maxOf(touchRadPx, maxExtraPadding + touchRadPx / 2)
+    }
     val totalMat = remember(viewMat.matrix, imgMat) { imgMat * viewMat.matrix }
     val image = rememberLoadedImage(state.src, view, totalMat)
     val cropRect = remember(state.region, viewMat.matrix) {

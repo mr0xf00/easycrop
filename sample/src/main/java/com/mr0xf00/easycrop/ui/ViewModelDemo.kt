@@ -13,7 +13,8 @@ fun ViewModelDemo(viewModel: ImagesViewModel, modifier: Modifier = Modifier) {
         loadingStatus = viewModel.imageCropper.loadingStatus,
         selectedImage = viewModel.selectedImage.collectAsState().value,
         onPick = { imagePicker.pick() },
-        modifier = modifier
+        modifier = modifier,
+        noDialog = true,
     )
     viewModel.cropError.collectAsState().value?.let { error ->
         CropErrorDialog(error, onDismiss = { viewModel.cropErrorShown() })

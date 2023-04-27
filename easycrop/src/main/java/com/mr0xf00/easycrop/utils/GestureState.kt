@@ -143,8 +143,8 @@ internal fun Modifier.onGestures(state: GestureState): Modifier {
                             event = awaitPointerEvent(pass = PointerEventPass.Initial)
                             var dragPointer: PointerInputChange? = null
                             for (change in event.changes) {
-                                if (change.changedToDown()) info.pointers++
-                                else if (change.changedToUp()) info.pointers--
+                                if (change.changedToDownIgnoreConsumed()) info.pointers++
+                                else if (change.changedToUpIgnoreConsumed()) info.pointers--
                                 info.maxPointers = max(info.maxPointers, info.pointers)
                                 if (change.id == info.dragId) dragPointer = change
                             }

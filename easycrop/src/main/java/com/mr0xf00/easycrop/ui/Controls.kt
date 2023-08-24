@@ -51,33 +51,33 @@ internal fun CropperControls(
             IconButton(onClick = { state.flipVertical() }) {
                 Icon(painterResource(id = R.drawable.flip_ver), null)
             }
-            Box {
-                var menu by remember { mutableStateOf(false) }
-                IconButton(onClick = { menu = !menu }) {
-                    Icon(painterResource(id = R.drawable.resize), null)
-                }
-                if (menu) AspectSelectionMenu(
-                    onDismiss = { menu = false },
-                    region = state.region,
-                    onRegion = { state.region = it },
-                    lock = state.aspectLock,
-                    onLock = { state.aspectLock = it }
-                )
-            }
-            LocalCropperStyle.current.shapes?.let { shapes ->
-                Box {
-                    var menu by remember { mutableStateOf(false) }
-                    IconButton(onClick = { menu = !menu }) {
-                        Icon(Icons.Default.Star, null)
-                    }
-                    if (menu) ShapeSelectionMenu(
-                        onDismiss = { menu = false },
-                        selected = state.shape,
-                        onSelect = { state.shape = it },
-                        shapes = shapes
-                    )
-                }
-            }
+//            Box {
+//                var menu by remember { mutableStateOf(false) }
+//                IconButton(onClick = { menu = !menu }) {
+//                    Icon(painterResource(id = R.drawable.resize), null)
+//                }
+//                if (menu) AspectSelectionMenu(
+//                    onDismiss = { menu = false },
+//                    region = state.region,
+//                    onRegion = { state.region = it },
+//                    lock = state.aspectLock,
+//                    onLock = { state.aspectLock = it }
+//                )
+//            }
+//            LocalCropperStyle.current.shapes?.let { shapes ->
+//                Box {
+//                    var menu by remember { mutableStateOf(false) }
+//                    IconButton(onClick = { menu = !menu }) {
+//                        Icon(Icons.Default.Star, null)
+//                    }
+//                    if (menu) ShapeSelectionMenu(
+//                        onDismiss = { menu = false },
+//                        selected = state.shape,
+//                        onSelect = { state.shape = it },
+//                        shapes = shapes
+//                    )
+//                }
+//            }
         }
     }
 }

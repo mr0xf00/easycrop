@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -27,7 +28,7 @@ import com.mr0xf00.easycrop.R
 
 private val CropperDialogProperties = @OptIn(ExperimentalComposeUiApi::class) (DialogProperties(
     usePlatformDefaultWidth = false,
-    dismissOnBackPress = false,
+    dismissOnBackPress = true,
     dismissOnClickOutside = false
 ))
 
@@ -94,6 +95,7 @@ private fun DefaultTopBar(state: CropState) {
             IconButton(onClick = { state.done(accept = true) }, enabled = !state.accepted) {
                 Icon(Icons.Default.Done, null)
             }
-        }
+        },
+        backgroundColor = Color(0xFF202020)
     )
 }

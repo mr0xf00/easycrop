@@ -28,6 +28,7 @@ fun SimpleDemo(modifier: Modifier = Modifier) {
         cropState = imageCropper.cropState,
         loadingStatus = imageCropper.loadingStatus,
         selectedImage = selectedImage,
+        onDrawingError = {},
         onPick = { imagePicker.pick() },
         modifier = modifier
     )

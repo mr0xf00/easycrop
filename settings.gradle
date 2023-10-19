@@ -12,6 +12,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "EasyCrop"
+rootProject.name = "easy-crop"
+
 include ':sample'
 include ':easycrop'

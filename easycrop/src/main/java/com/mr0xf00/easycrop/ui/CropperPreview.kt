@@ -22,7 +22,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun CropperPreview(
     state: CropState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDrawingError: (Exception) -> Unit
 ) {
     val style = LocalCropperStyle.current
     val imgTransform by animateImgTransform(target = state.transform)
@@ -58,10 +59,15 @@ fun CropperPreview(
     ) {
         withTransform({ transform(totalMat) }) {
             image?.let { (params, bitmap) ->
-                drawImage(
-                    bitmap, dstOffset = params.subset.topLeft,
-                    dstSize = params.subset.size
-                )
+                try {
+                    drawImage(
+                        bitmap, dstOffset = params.subset.topLeft,
+                        dstSize = params.subset.size
+                    )
+                } catch (e: Exception) {
+                    state.done(false)
+                    onDrawingError(e)
+                }
             }
         }
         with(style) {

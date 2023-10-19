@@ -7,12 +7,17 @@ import com.mr0xf00.easycrop.rememberImagePicker
 
 @Composable
 fun ViewModelDemo(viewModel: ImagesViewModel, modifier: Modifier = Modifier) {
-    val imagePicker = rememberImagePicker(onImage = { uri -> viewModel.setSelectedImage(uri) })
+    val imagePicker = rememberImagePicker(onImage = { uri ->
+        viewModel.setSelectedImage(uri)
+    })
     DemoContent(
         cropState = viewModel.imageCropper.cropState,
         loadingStatus = viewModel.imageCropper.loadingStatus,
         selectedImage = viewModel.selectedImage.collectAsState().value,
         onPick = { imagePicker.pick() },
+        onDrawingError = {
+
+        },
         modifier = modifier
     )
     viewModel.cropError.collectAsState().value?.let { error ->

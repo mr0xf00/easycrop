@@ -17,11 +17,12 @@ fun DemoContent(
     loadingStatus: CropperLoading?,
     selectedImage: ImageBitmap?,
     onPick: () -> Unit,
+    onDrawingError: (Exception) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (cropState != null) {
         EasyCropTheme(darkTheme = true) {
-            ImageCropperDialog(state = cropState)
+            ImageCropperDialog(state = cropState, onDrawingError = onDrawingError)
         }
     }
     if (cropState == null && loadingStatus != null) {

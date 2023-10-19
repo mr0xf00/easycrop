@@ -39,6 +39,7 @@ fun ImageCropperDialog(
     dialogProperties: DialogProperties = CropperDialogProperties,
     dialogPadding: PaddingValues = PaddingValues(16.dp),
     dialogShape: Shape = RoundedCornerShape(8.dp),
+    onDrawingError: (Exception) -> Unit,
     topBar: @Composable (CropState) -> Unit = { DefaultTopBar(it) },
     cropControls: @Composable BoxScope.(CropState) -> Unit = { DefaultControls(it) }
 ) {
@@ -58,7 +59,11 @@ fun ImageCropperDialog(
                             .weight(1f)
                             .clipToBounds()
                     ) {
-                        CropperPreview(state = state, modifier = Modifier.fillMaxSize())
+                        CropperPreview(
+                            state = state,
+                            modifier = Modifier.fillMaxSize(),
+                            onDrawingError = onDrawingError
+                        )
                         cropControls(state)
                     }
                 }
@@ -85,15 +90,27 @@ private fun DefaultTopBar(state: CropState) {
     TopAppBar(title = {},
         navigationIcon = {
             IconButton(onClick = { state.done(accept = false) }) {
-                Icon(Icons.Default.ArrowBack, null)
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    tint = Color.White,
+                    contentDescription = null
+                )
             }
         },
         actions = {
             IconButton(onClick = { state.reset() }) {
-                Icon(painterResource(R.drawable.restore), null)
+                Icon(
+                    painter = painterResource(R.drawable.restore),
+                    tint = Color.White,
+                    contentDescription = null
+                )
             }
             IconButton(onClick = { state.done(accept = true) }, enabled = !state.accepted) {
-                Icon(Icons.Default.Done, null)
+                Icon(
+                    imageVector = Icons.Default.Done,
+                    tint = Color.White,
+                    contentDescription = null
+                )
             }
         },
         backgroundColor = Color(0xFF202020)

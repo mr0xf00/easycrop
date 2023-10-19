@@ -1,8 +1,10 @@
 package com.mr0xf00.easycrop.presentation
 
 import android.app.Application
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.mr0xf00.easycrop.CropError
@@ -26,7 +28,11 @@ class ImagesViewModel(private val app: Application) : AndroidViewModel(app) {
 
     fun setSelectedImage(uri: Uri) {
         viewModelScope.launch {
-            when(val result = imageCropper.crop(uri, app)) {
+
+            val bitmap = app.contentResolver.openInputStream(uri).use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)
+            }
+            when(val result = imageCropper.crop(bmp = bitmap.asImageBitmap())) {
                 CropResult.Cancelled -> {}
                 is CropError -> _cropError.value = result
                 is CropResult.Success -> {

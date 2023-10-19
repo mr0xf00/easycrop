@@ -33,7 +33,7 @@ internal fun CropState(
 ): CropState = object : CropState {
     val defaultTransform: ImgTransform = ImgTransform.Identity
     val defaultShape: CropShape = RectCropShape
-    val defaultAspectLock: Boolean = false
+    val defaultAspectLock: Boolean = true
     override val src: ImageSrc get() = src
     private var _transform: ImgTransform by mutableStateOf(defaultTransform)
     override var transform: ImgTransform
@@ -43,7 +43,7 @@ internal fun CropState(
             _transform = value
         }
 
-    val defaultRegion = src.size.toSize().toRect()
+    val defaultRegion = src.size.toSize().toRect().setAspect(AspectRatio(1, 1))
 
     private var _region by mutableStateOf(defaultRegion)
     override var region
